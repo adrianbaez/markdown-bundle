@@ -1,0 +1,4 @@
+adrian_baez_markdown:
+    parsers:
+        markdown: AdrianBaez\Bundle\MarkdownBundle\Tests\TestParser
+        markdown_extra: AdrianBaez\Bundle\MarkdownBundle\Tests\TestExtraParser

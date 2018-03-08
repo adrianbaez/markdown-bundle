@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    AdrianBaez\Bundle\MarkdownBundle\Tests\Functional\Bundle\Controller\:
+        resource: '../Bundle/Controller'
+        tags: ['controller.service_arguments']
