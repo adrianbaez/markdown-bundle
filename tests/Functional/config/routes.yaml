@@ -1,0 +1,3 @@
+di:
+    path: '/di'
+    defaults: { _controller: AdrianBaez\Bundle\MarkdownBundle\Tests\Functional\Bundle\Controller\TestController:di }
