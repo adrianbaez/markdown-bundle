@@ -2,8 +2,6 @@
 
 namespace AdrianBaez\Bundle\MarkdownBundle\Tests;
 
-use AdrianBaez\Bundle\MarkdownBundle\Helper;
-use AdrianBaez\Bundle\MarkdownBundle\Markdown;
 use AdrianBaez\Bundle\MarkdownBundle\Twig\MarkdownRuntime;
 use AdrianBaez\Bundle\MarkdownBundle\Tests\TestCase;
 
