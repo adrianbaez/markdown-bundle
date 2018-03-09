@@ -18,22 +18,10 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('adrian_baez_markdown');
         $rootNode
             ->children()
-                ->arrayNode('options')
-                ->addDefaultsIfNotSet()
-                    ->children()
-                        ->booleanNode('urls_linked')->defaultTrue()->end()
-                        ->booleanNode('breaks_enabled')->defaultFalse()->end()
-                        ->booleanNode('markup_escaped')->defaultFalse()->end()
-                        ->booleanNode('safe_mode')->defaultFalse()->end()
-                    ->end()
+                ->variableNode('options')
+                ->defaultValue([])
                 ->end()
-                ->arrayNode('parsers')
-                ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('markdown')->defaultValue(MarkdownParser::class)->end()
-                        ->scalarNode('markdown_extra')->defaultValue(MarkdownExtraParser::class)->end()
-                    ->end()
-                ->end()
+                ->scalarNode('parser')->defaultValue(MarkdownParser::class)->end()
             ->end()
         ;
         return $treeBuilder;

@@ -3,32 +3,23 @@
 namespace AdrianBaez\Bundle\MarkdownBundle\Tests;
 
 use AdrianBaez\Bundle\MarkdownBundle\Interfaces\MarkdownParserInterface;
-use AdrianBaez\Bundle\MarkdownBundle\Interfaces\MarkdownExtraParserInterface;
 use PHPUnit\Framework\TestCase;
 
 class HelperTest extends TestCase
 {
-
     public function testGetMarkdown()
     {
         $parser = new TestHelper;
         $mdDefault = $parser->getMarkdown();
         $this->assertTrue($mdDefault instanceof MarkdownParserInterface);
-        $this->assertTrue($parser->hasInstance('default_1000'));
-        $this->assertEquals(['default_1000'], array_keys($parser->getInstances()));
+        $this->assertTrue($parser->hasInstance('40cd750bba9870f18aada2478b24840a'));
+        $this->assertEquals(['40cd750bba9870f18aada2478b24840a'], array_keys($parser->getInstances()));
 
-        // default values
-
-        $this->assertTrue($parser->getDefaultValue('urls_linked'));
-        $this->assertFalse($parser->getDefaultValue('markup_escaped'));
-        $this->assertFalse($parser->getDefaultValue('breaks_enabled'));
-        $this->assertFalse($parser->getDefaultValue('safe_mode'));
-
-        // values are asigned
-        $this->assertEquals('<p><a href="http://example.com">http://example.com</a></p>', $mdDefault->text('http://example.com'));
-        $this->assertEquals("<p>1st line\n2nd line</p>", $mdDefault->text("1st line \n 2nd line"));
-        $this->assertEquals("<div><strong>*Some text*</strong></div>", $mdDefault->text("<div><strong>*Some text*</strong></div>"));
-        $this->assertEquals("<script>alert('Hello world');</script>", $mdDefault->text("<script>alert('Hello world');</script>"));
+        // Default behavior
+        $this->assertEquals('<p><a href="http://example.com">http://example.com</a></p>', $mdDefault->parse('http://example.com'));
+        $this->assertEquals("<p>1st line\n2nd line</p>", $mdDefault->parse("1st line \n 2nd line"));
+        $this->assertEquals("<div><strong>*Some text*</strong></div>", $mdDefault->parse("<div><strong>*Some text*</strong></div>"));
+        $this->assertEquals("<script>alert('Hello world');</script>", $mdDefault->parse("<script>alert('Hello world');</script>"));
 
         // Options changed for one instance
         $md1 = $parser->getMarkdown([
@@ -38,8 +29,11 @@ class HelperTest extends TestCase
             'safe_mode' => false
         ]);
         $this->assertTrue($md1 instanceof MarkdownParserInterface);
-        $this->assertTrue($parser->hasInstance('default_0110'));
-        $this->assertEquals(['default_1000', 'default_0110'], array_keys($parser->getInstances()));
+        $this->assertTrue($parser->hasInstance('a10b231c21137b1f499c9ebde4ffd974'));
+        $this->assertEquals([
+            '40cd750bba9870f18aada2478b24840a',
+            'a10b231c21137b1f499c9ebde4ffd974',
+        ], array_keys($parser->getInstances()));
         $this->assertNotSame($md1, $mdDefault);
 
         // Same options same instance
@@ -49,21 +43,17 @@ class HelperTest extends TestCase
             'breaks_enabled' => true,
             'safe_mode' => false
         ]);
-        $this->assertEquals(['default_1000', 'default_0110'], array_keys($parser->getInstances()));
+        $this->assertEquals([
+            '40cd750bba9870f18aada2478b24840a',
+            'a10b231c21137b1f499c9ebde4ffd974',
+        ], array_keys($parser->getInstances()));
         $this->assertSame($md1, $md1b);
 
-        // default values not changed
-
-        $this->assertTrue($parser->getDefaultValue('urls_linked'));
-        $this->assertFalse($parser->getDefaultValue('markup_escaped'));
-        $this->assertFalse($parser->getDefaultValue('breaks_enabled'));
-        $this->assertFalse($parser->getDefaultValue('safe_mode'));
-
         // values are asigned
-        $this->assertEquals('<p>http://example.com</p>', $md1->text('http://example.com'));
-        $this->assertEquals("<p>1st line<br />\n2nd line</p>", $md1->text("1st line \n 2nd line"));
-        $this->assertEquals("<p>&lt;div&gt;&lt;strong&gt;<em>Some text</em>&lt;/strong&gt;&lt;/div&gt;</p>", $md1->text("<div><strong>*Some text*</strong></div>"));
-        $this->assertEquals("<p>Hi &lt;script&gt;alert('Hello world');&lt;/script&gt;</p>", $md1->text("Hi <script>alert('Hello world');</script>"));
+        $this->assertEquals('<p>http://example.com</p>', $md1->parse('http://example.com'));
+        $this->assertEquals("<p>1st line<br />\n2nd line</p>", $md1->parse("1st line \n 2nd line"));
+        $this->assertEquals("<p>&lt;div&gt;&lt;strong&gt;<em>Some text</em>&lt;/strong&gt;&lt;/div&gt;</p>", $md1->parse("<div><strong>*Some text*</strong></div>"));
+        $this->assertEquals("<p>Hi &lt;script&gt;alert('Hello world');&lt;/script&gt;</p>", $md1->parse("Hi <script>alert('Hello world');</script>"));
 
         $md2 = $parser->getMarkdown([
             'urls_linked' => false,
@@ -71,83 +61,8 @@ class HelperTest extends TestCase
             'breaks_enabled' => false,
             'safe_mode' => true
         ]);
-        $this->assertEquals("<p>&lt;div&gt;&lt;strong&gt;<em>Some text</em>&lt;/strong&gt;&lt;/div&gt;</p>", $md2->text("<div><strong>*Some text*</strong></div>"));
-        $this->assertEquals("<p>Hi &lt;script&gt;alert('Hello world');&lt;/script&gt;</p>", $md2->text("Hi <script>alert('Hello world');</script>"));
-    }
-
-    public function testGetMarkdownExtra()
-    {
-        $parser = new TestHelper;
-        $mdDefault = $parser->getMarkdownExtra();
-        $this->assertTrue($mdDefault instanceof MarkdownExtraParserInterface);
-        $this->assertTrue($parser->hasInstance('extra_1000'));
-        $this->assertEquals(['extra_1000'], array_keys($parser->getInstances()));
-
-        // default values
-
-        $this->assertTrue($parser->getDefaultValue('urls_linked'));
-        $this->assertFalse($parser->getDefaultValue('markup_escaped'));
-        $this->assertFalse($parser->getDefaultValue('breaks_enabled'));
-        $this->assertFalse($parser->getDefaultValue('safe_mode'));
-
-        // values are asigned
-        $this->assertEquals('<p><a href="http://example.com">http://example.com</a></p>', $mdDefault->text('http://example.com'));
-        $this->assertEquals("<p>1st line\n2nd line</p>", $mdDefault->text("1st line \n 2nd line"));
-        $this->assertEquals("<div><strong>*Some text*</strong></div>", $mdDefault->text("<div><strong>*Some text*</strong></div>"));
-        $this->assertEquals("<script>alert('Hello world');</script>", $mdDefault->text("<script>alert('Hello world');</script>"));
-
-        // Options changed for one instance
-        $md1 = $parser->getMarkdownExtra([
-            'urls_linked' => false,
-            'markup_escaped' => true,
-            'breaks_enabled' => true,
-            'safe_mode' => false
-        ]);
-        $this->assertTrue($md1 instanceof MarkdownExtraParserInterface);
-        $this->assertTrue($parser->hasInstance('extra_0110'));
-        $this->assertEquals(['extra_1000', 'extra_0110'], array_keys($parser->getInstances()));
-        $this->assertNotSame($md1, $mdDefault);
-
-        // Same options same instance
-        $md1b = $parser->getMarkdownExtra([
-            'urls_linked' => false,
-            'markup_escaped' => true,
-            'breaks_enabled' => true,
-            'safe_mode' => false
-        ]);
-        $this->assertEquals(['extra_1000', 'extra_0110'], array_keys($parser->getInstances()));
-        $this->assertSame($md1, $md1b);
-
-        // default values not changed
-
-        $this->assertTrue($parser->getDefaultValue('urls_linked'));
-        $this->assertFalse($parser->getDefaultValue('markup_escaped'));
-        $this->assertFalse($parser->getDefaultValue('breaks_enabled'));
-        $this->assertFalse($parser->getDefaultValue('safe_mode'));
-
-        // values are asigned
-        $this->assertEquals('<p>http://example.com</p>', $md1->text('http://example.com'));
-        $this->assertEquals("<p>1st line<br />\n2nd line</p>", $md1->text("1st line \n 2nd line"));
-        $this->assertEquals("<p>&lt;div&gt;&lt;strong&gt;<em>Some text</em>&lt;/strong&gt;&lt;/div&gt;</p>", $md1->text("<div><strong>*Some text*</strong></div>"));
-        $this->assertEquals("<p>Hi &lt;script&gt;alert('Hello world');&lt;/script&gt;</p>", $md1->text("Hi <script>alert('Hello world');</script>"));
-
-        $md2 = $parser->getMarkdownExtra([
-            'urls_linked' => false,
-            'markup_escaped' => false,
-            'breaks_enabled' => false,
-            'safe_mode' => true
-        ]);
-        $this->assertEquals("<p>&lt;div&gt;&lt;strong&gt;<em>Some text</em>&lt;/strong&gt;&lt;/div&gt;</p>", $md2->text("<div><strong>*Some text*</strong></div>"));
-        $this->assertEquals("<p>Hi &lt;script&gt;alert('Hello world');&lt;/script&gt;</p>", $md2->text("Hi <script>alert('Hello world');</script>"));
-
-        $md2Default = $parser->getMarkdown([
-            'urls_linked' => false,
-            'markup_escaped' => false,
-            'breaks_enabled' => false,
-            'safe_mode' => true
-        ]);
-        $this->assertEquals(['extra_1000', 'extra_0110', 'extra_0001', 'default_0001'], array_keys($parser->getInstances()));
-        $this->assertNotSame($md2, $md2Default);
+        $this->assertEquals("<p>&lt;div&gt;&lt;strong&gt;<em>Some text</em>&lt;/strong&gt;&lt;/div&gt;</p>", $md2->parse("<div><strong>*Some text*</strong></div>"));
+        $this->assertEquals("<p>Hi &lt;script&gt;alert('Hello world');&lt;/script&gt;</p>", $md2->parse("Hi <script>alert('Hello world');</script>"));
     }
 
     public function testSetDefaults()
@@ -160,7 +75,10 @@ class HelperTest extends TestCase
             'safe_mode' => false
         ]);
         $md1 = $parser->getMarkdown();
-        $this->assertTrue($parser->hasInstance('default_0000'));
+        $this->assertTrue($parser->hasInstance('976647117ce29c3b33d47a34b43f322f'));
+        $this->assertEquals([
+            '976647117ce29c3b33d47a34b43f322f',
+        ], array_keys($parser->getInstances()));
 
         // default values
 
@@ -209,34 +127,13 @@ class HelperTest extends TestCase
         $this->assertTrue($parser->getDefaultValue('breaks_enabled'));
         $this->assertTrue($parser->getDefaultValue('safe_mode'));
     }
-    
-    public function testSetMarkdownParserClass()
+
+    public function testSetParserClass()
     {
         $parser = new TestHelper;
-        $parser->setMarkdownParserClass(TestParser::class);
+        $parser->setParserClass(CustomParser::class);
         $md = $parser->getMarkdown();
-        $this->assertTrue($md instanceof TestParser);
+        $this->assertTrue($md instanceof CustomParser);
         $this->assertEquals("<p>Hello world</p>\ntest_parser", $md->parse('Hello world'));
-    }
-    
-    public function testSetMarkdownExtraParserClass()
-    {
-        $parser = new TestHelper;
-        $parser->setMarkdownExtraParserClass(TestExtraParser::class);
-        $mdExtra = $parser->getMarkdownExtra();
-        $this->assertTrue($mdExtra instanceof TestExtraParser);
-        
-        $text = <<<EOF
-d title
-: d description
-EOF;
-        $expected = <<<EOF
-<dl>
-<dt>d title</dt>
-<dd>d description</dd>
-</dl>
-test_extra_parser
-EOF;
-        $this->assertEquals($expected, $mdExtra->parse($text));
     }
 }

@@ -6,15 +6,9 @@ services:
 
     AdrianBaez\Bundle\MarkdownBundle\Helper: ~
     AdrianBaez\Bundle\MarkdownBundle\Markdown: ~
-    AdrianBaez\Bundle\MarkdownBundle\MarkdownExtra: ~
 
     AdrianBaez\Bundle\MarkdownBundle\Interfaces\MarkdownInterface: '@AdrianBaez\Bundle\MarkdownBundle\Markdown'
-    AdrianBaez\Bundle\MarkdownBundle\Interfaces\MarkdownExtraInterface: '@AdrianBaez\Bundle\MarkdownBundle\MarkdownExtra'
 
     adrianbaez.markdown:
         alias: AdrianBaez\Bundle\MarkdownBundle\Markdown
-        public: true
-
-    adrianbaez.markdown_extra:
-        alias: AdrianBaez\Bundle\MarkdownBundle\MarkdownExtra
         public: true

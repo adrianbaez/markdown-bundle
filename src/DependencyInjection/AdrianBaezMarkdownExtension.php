@@ -21,10 +21,9 @@ class AdrianBaezMarkdownExtension extends Extension
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
+
         $helperDef = $container->getDefinition( Helper::class );
         $helperDef->addMethodCall('setDefaults', [$config['options']]);
-        $helperDef->addMethodCall('setMarkdownParserClass', [$config['parsers']['markdown']]);
-        $helperDef->addMethodCall('setMarkdownExtraParserClass', [$config['parsers']['markdown_extra']]);
+        $helperDef->addMethodCall('setParserClass', [$config['parser']]);
     }
 }

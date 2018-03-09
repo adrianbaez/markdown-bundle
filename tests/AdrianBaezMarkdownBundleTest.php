@@ -11,7 +11,6 @@ class AdrianBaezMarkdownBundleTest extends TestCase
         $container = $this->getKernel()->getContainer();
         $this->assertFalse($container->has(Helper::class));
         $this->assertTrue($container->has('adrianbaez.markdown'));
-        $this->assertTrue($container->has('adrianbaez.markdown_extra'));
 
         // Check Options
 
