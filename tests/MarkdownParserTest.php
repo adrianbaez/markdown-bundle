@@ -16,7 +16,17 @@ class MarkdownParserTest extends TestCase
     public function testSetOptions()
     {
         $md = new MarkdownParser;
-        $md->setOptions(['urls_linked' => false]);
+        $setOptionsOutput = $md->setOptions(['urls_linked' => false]);
+        $this->assertSame($md, $setOptionsOutput);
         $this->assertEquals('<p>http://example.com</p>', $md->parse('http://example.com'));
+        $exceptionThrowed = false;
+        try {
+            $md->setOptions(['invalid_option' => false]);
+        } catch (\RuntimeException $e) {
+            $exceptionThrowed = true;
+            $this->assertEquals('The option "invalid_option" is not available.', $e->getMessage());
+        }
+        $this->assertTrue($exceptionThrowed);
+        
     }
 }
