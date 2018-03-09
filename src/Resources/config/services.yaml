@@ -9,6 +9,12 @@ services:
 
     AdrianBaez\Bundle\MarkdownBundle\Interfaces\MarkdownInterface: '@AdrianBaez\Bundle\MarkdownBundle\Markdown'
 
+    AdrianBaez\Bundle\MarkdownBundle\Twig\MarkdownExtension: ~
+    
+    AdrianBaez\Bundle\MarkdownBundle\Twig\MarkdownRuntime:
+        tags:
+            - { name: twig.runtime }
+
     adrianbaez.markdown:
         alias: AdrianBaez\Bundle\MarkdownBundle\Markdown
         public: true

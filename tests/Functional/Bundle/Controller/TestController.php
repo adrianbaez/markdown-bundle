@@ -16,4 +16,15 @@ class TestController extends Controller
     {
         return new Response($md('controller di test'));
     }
+    
+    public function twig()
+    {
+        $text = <<<EOF
+# Title
+
+Hello
+world
+EOF;
+        return $this->render('test.html.twig', ['text' => $text]);
+    }
 }
