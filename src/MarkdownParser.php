@@ -4,7 +4,6 @@ namespace AdrianBaez\Bundle\MarkdownBundle;
 
 use AdrianBaez\Bundle\MarkdownBundle\Interfaces\MarkdownParserInterface;
 use Parsedown;
-use ReflectionMethod;
 use RuntimeException;
 
 class MarkdownParser implements MarkdownParserInterface
@@ -12,6 +11,7 @@ class MarkdownParser implements MarkdownParserInterface
     /**
      * @var Parsedown $parser
      */
+    protected $parser;
 
     public function __construct()
     {
@@ -32,20 +32,11 @@ class MarkdownParser implements MarkdownParserInterface
     public function setOptions(array $options): MarkdownParserInterface
     {
         foreach ($options as $key => $value) {
-            $tokens = explode('_', $key);
-            $tokens = array_map(function ($token) {
-                return ucfirst($token);
-            }, $tokens);
-            $method = sprintf('set%s', implode('', $tokens));
-
-            if (method_exists($this->parser, $method)) {
-                $reflection = new ReflectionMethod($this->parser, $method);
-                if ($reflection->isPublic()) {
-                    $this->parser->$method($value);
-                    continue;
-                }
+            $method = 'set'.str_replace('_', '', ucwords($key, '_'));
+            if (!method_exists($this->parser, $method)) {
+                throw new RuntimeException(sprintf('The option "%s" is not available.', $key));
             }
-            throw new RuntimeException(sprintf('The option "%s" is not available.', $key));
+            $this->parser->$method($value);
         }
         return $this;
     }

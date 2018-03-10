@@ -3,12 +3,15 @@
 namespace AdrianBaez\Bundle\MarkdownBundle\Tests;
 
 use AdrianBaez\Bundle\MarkdownBundle\Helper;
+use AdrianBaez\Bundle\MarkdownBundle\Tests\Functional\Kernel;
 
 class AdrianBaezMarkdownBundleTest extends TestCase
 {
     public function testServices()
     {
-        $container = $this->getKernel()->getContainer();
+        $kernel = $this->getKernel();
+        $container = $kernel->getContainer();
+        $this->assertEquals(Kernel::class, get_class($kernel));
         $this->assertFalse($container->has(Helper::class));
         $this->assertTrue($container->has('adrianbaez.markdown'));
 

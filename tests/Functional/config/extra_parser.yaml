@@ -1,0 +1,2 @@
+adrian_baez_markdown:
+    parser: AdrianBaez\Bundle\MarkdownBundle\MarkdownExtraParser
