@@ -12,7 +12,7 @@ interface MarkdownParserInterface
 
     /**
      * @param  array $options
-     * @throws \RuntimeException if optios can't be setted
+     * @throws \RuntimeException if options can't be setted
      * @return MarkdownParserInterface
      */
     public function setOptions(array $options) :MarkdownParserInterface;
