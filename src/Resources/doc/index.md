@@ -35,7 +35,7 @@ If you use a custom parser the options keys and values will be restricted only b
 - Get from the container with the `adrian_baez.markdown` public service.
 - Use in Twig templates with the `markdown` filter.
 
-All the versions above uses de default configuration, but you can pass a second parameter (optional parameter in twig filter) for a individual case, this parameter must be an array with the accepted options keys and values that will be merged with the defaults.
+All the versions above uses the default configuration, but you can pass a second parameter (optional parameter in twig filter) for a individual case, this parameter must be an array with the accepted options keys and values that will be merged with the defaults.
 
 The service can be invoked directlly or with the `parse` method:
 ```php
