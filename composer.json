@@ -1,6 +1,7 @@
 {
     "name": "adrianbaez/markdown-bundle",
     "description": "Markdown and markdown extra bundle for Symfony",
+    "keywords": ["markdown", "markdown extra", "parsedown", "parsedownextra", "symfony bundle"],
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
