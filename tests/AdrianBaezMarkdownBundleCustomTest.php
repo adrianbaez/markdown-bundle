@@ -13,7 +13,7 @@ class AdrianBaezMarkdownBundleCustomTest extends TestCase
         $kernel = $this->getKernel();
         $container = $kernel->getContainer();
         $this->assertEquals(KernelCustomParser::class, get_class($kernel));
-        $md = $container->get('adrianbaez.markdown');
+        $md = $container->get('adrian_baez.markdown');
 
         $this->assertEquals("<p>Hello world</p>\ntest_parser", $md('Hello world'));
     }

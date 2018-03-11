@@ -13,7 +13,7 @@ class AdrianBaezMarkdownBundleExtraTest extends TestCase
         $kernel = $this->getKernel();
         $container = $kernel->getContainer();
         $this->assertEquals(KernelExtraParser::class, get_class($kernel));
-        $md = $container->get('adrianbaez.markdown');
+        $md = $container->get('adrian_baez.markdown');
         
         $text = <<<EOF
 Title

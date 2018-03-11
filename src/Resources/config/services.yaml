@@ -15,6 +15,6 @@ services:
         tags:
             - { name: twig.runtime }
 
-    adrianbaez.markdown:
+    adrian_baez.markdown:
         alias: AdrianBaez\Bundle\MarkdownBundle\Markdown
         public: true

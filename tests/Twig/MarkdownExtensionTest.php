@@ -13,7 +13,7 @@ class MarkdownExtensionTest extends TestCase
 {
     public function testGetServices()
     {
-        $md = $this->getService('adrianbaez.markdown');
+        $md = $this->getService('adrian_baez.markdown');
         $runtimeLoader = new FactoryRuntimeLoader(
             [
                 MarkdownRuntime::class => function() use($md){

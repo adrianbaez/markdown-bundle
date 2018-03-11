@@ -9,7 +9,7 @@ class MarkdownRuntimeTest extends TestCase
 {
     public function testParse()
     {
-        $mdRuntime = new MarkdownRuntime($this->getService('adrianbaez.markdown'));
+        $mdRuntime = new MarkdownRuntime($this->getService('adrian_baez.markdown'));
         $this->assertEquals('<p><a href="http://example.com">http://example.com</a></p>', $mdRuntime->parse('http://example.com'));
         $this->assertEquals('<p>http://example.com</p>', $mdRuntime->parse('http://example.com', ['urls_linked' => false]));
         $this->assertEquals('<p><a href="http://example.com">http://example.com</a></p>', $mdRuntime->parse('http://example.com'));
